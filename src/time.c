@@ -101,7 +101,7 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
 
     // Increase our time if the score suddenly dropped
     if (info->values[depth-1] > value + 10)
-        info->idealUsage *= (pow(info->values[depth-1] - value - 8), 0.0375);
+        info->idealUsage *= (pow((info->values[depth-1] - value - 8), 0.0375));
 
     // Increase our time if the score suddenly jumps
     if (info->values[depth-1] + 15 < value)
