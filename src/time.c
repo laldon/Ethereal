@@ -22,6 +22,7 @@
     #include <sys/time.h>
 #endif
 
+#include <math.h>
 #include <stdlib.h>
 
 #include "search.h"
@@ -111,12 +112,8 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
         info->idealUsage *= 1.050;
 
     // Increase our time if the score suddenly jumps
-    if (info->values[depth-1] + 15 < value)
-        info->idealUsage *= 1.025;
-
-    // Increase our time if the score suddenly jumps
-    if (info->values[depth-1] + 30 < value)
-        info->idealUsage *= 1.050;
+    if (info->values[depth-1] + 10 < value)
+        info->idealUsage *= MIN(1.2, (0.8149272 * pow(value - info->values[depth-1], 0.08348958)));
 
 
     if (info->bestMoves[depth] == info->bestMoves[depth-1]){
