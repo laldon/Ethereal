@@ -113,8 +113,7 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
 
     // Increase our time if the score suddenly jumps
     if (info->values[depth-1] < value)
-        info->idealUsage *= (1.258874 - 0.2945339 / pow(2, ((value - info->values[depth-1])/40.68663)));
-
+        info->idealUsage *= (0.8934936 * pow(((value - info->values[depth-1]) + 2), 0.06501339));
 
     if (info->bestMoves[depth] == info->bestMoves[depth-1]){
 
