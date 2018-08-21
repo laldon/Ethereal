@@ -627,7 +627,8 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
         // No attacks of other pieces is implicit in our definition of weak.
         uint64_t knightChecks = knightThreats & safe &  ei->attackedBy[THEM][KNIGHT];
         uint64_t bishopChecks = bishopThreats & safe &  ei->attackedBy[THEM][BISHOP];
-        uint64_t rookChecks   = rookThreats   & safe &  ei->attackedBy[THEM][ROOK  ];
+        uint64_t rookChecks   = rookThreats   & safe &  ei->attackedBy[THEM][ROOK  ]
+                                                     & ~ei->attackedBy[  US][ROOK  ];
         uint64_t queenChecks  = queenThreats  & safe &  ei->attackedBy[THEM][QUEEN ]
                                                      & ~ei->attackedBy[  US][QUEEN ];
 
