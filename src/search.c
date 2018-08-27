@@ -59,7 +59,7 @@ void initSearch(){
     // Init Late Move Reductions Table
     for (int d = 1; d < 64; d++)
         for (int p = 1; p < 64; p++)
-            LMRTable[d][p] = 0.9 + log(d) * log(p) / 2.35;
+            LMRTable[d][p] = 0.75 + log(d) * log(p) / 2.25;
 }
 
 void getBestMove(Thread* threads, Board* board, Limits* limits, uint16_t *best, uint16_t *ponder){
@@ -197,8 +197,8 @@ int aspirationWindow(Thread* thread, int depth){
         if (value > alpha && value < beta)
             return value;
 
-        // Report lower and upper bounds after at least 5 seconds
-        if (mainThread && elapsedTime(thread->info) >= 5000)
+        // Report lower and upper bounds after at least 7.5 seconds
+        if (mainThread && elapsedTime(thread->info) >= 7500)
             uciReport(thread->threads, alpha, beta, value);
 
         // Search failed low
