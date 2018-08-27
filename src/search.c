@@ -473,7 +473,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             &&  isQuiet
             &&  best > MATED_IN_MAX
             &&  futilityMargin <= alpha
-            &&  depth < FutilityPruningDepth
+            &&  depth <= FutilityPruningDepth
             &&  hist < FutilityPruningHistoryLimit[improving])
             skipQuiets = 1;
 
@@ -483,7 +483,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
         if (   !RootNode
             &&  isQuiet
             &&  best > MATED_IN_MAX
-            &&  depth < LateMovePruningDepth
+            &&  depth <= LateMovePruningDepth
             &&  quiets >= LateMovePruningCounts[improving][depth])
             skipQuiets = 1;
 
@@ -492,7 +492,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
         if (   !RootNode
             &&  isQuiet
             &&  best > MATED_IN_MAX
-            &&  depth < CounterMovePruningDepth[improving]
+            &&  depth <= CounterMovePruningDepth[improving]
             &&  cmhist < CounterMoveHistoryLimit[improving])
             continue;
 
@@ -501,7 +501,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
         if (   !RootNode
             &&  isQuiet
             &&  best > MATED_IN_MAX
-            &&  depth < FollowUpMovePruningDepth[improving]
+            &&  depth <= FollowUpMovePruningDepth[improving]
             &&  fuhist < FollowUpMoveHistoryLimit[improving])
             continue;
 
@@ -510,7 +510,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
         // is a speedup, which assumes that good noisy moves have a positive SEE
         if (   !RootNode
             && !inCheck
-            &&  depth < SEEPruningDepth
+            &&  depth <= SEEPruningDepth
             &&  best > MATED_IN_MAX
             &&  movePicker.stage > STAGE_GOOD_NOISY
             && !staticExchangeEvaluation(board, move, SEEMargin * depth * depth))
@@ -558,7 +558,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
         // and it seems that under some conditions, the table move is better than
         // all other possible moves, we will extend the search of the table move
         extension =  !RootNode
-                  &&  depth >= 10
+                  &&  depth >= 12
                   &&  move == ttMove
                   &&  ttDepth >= depth - 3
                   && (ttBound & BOUND_LOWER)
