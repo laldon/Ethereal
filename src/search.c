@@ -197,8 +197,8 @@ int aspirationWindow(Thread* thread, int depth){
         if (value > alpha && value < beta)
             return value;
 
-        // Report lower and upper bounds after at least 7.5 seconds
-        if (mainThread && elapsedTime(thread->info) >= 7500)
+        // Report lower and upper bounds after at least 5 seconds
+        if (mainThread && elapsedTime(thread->info) >= 5000)
             uciReport(thread->threads, alpha, beta, value);
 
         // Search failed low
@@ -285,7 +285,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
 
         // Only cut with a greater depth search, and do not return
         // when in a PvNode, unless we would otherwise hit a qsearch
-        if (ttDepth >= depth && (depth == 0 || !PvNode)){
+        if (ttDepth > depth && (depth == 0 || !PvNode)){
 
             // Table is exact or produces a cutoff
             if (    ttBound == BOUND_EXACT
