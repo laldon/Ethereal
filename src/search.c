@@ -380,7 +380,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
         &&  thread->moveStack[height-2] != NULL_MOVE
         && (!ttHit || !(ttBound & BOUND_UPPER) || ttValue >= beta)) {
 
-        R = 3 + depth / 6 + MIN(3, (eval - beta) / 200);
+        R = 4 + depth / 6 + MIN(3, (eval - beta) / 200);
 
         applyNullMove(board, undo);
 
@@ -424,12 +424,12 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             thread->moveStack[height] = move;
             thread->pieceStack[height] = pieceType(board->squares[MoveTo(move)]);
 
-            // Verify the move has promise using a depth 2 search
-            value = -search(thread, &lpv, -rBeta, -rBeta+1, 2, height+1);
+            // Verify the move has promise using a depth 4 search
+            value = -search(thread, &lpv, -rBeta, -rBeta+1, 4, height+1);
 
             // Verify the move holds which a slightly reduced depth search
-            if (value >= rBeta && depth > 6)
-                value = -search(thread, &lpv, -rBeta, -rBeta+1, depth-4, height+1);
+            if (value >= rBeta && depth > 8)
+                value = -search(thread, &lpv, -rBeta, -rBeta+1, depth-6, height+1);
 
             // Revert the board state
             revertMove(board, move, undo);
