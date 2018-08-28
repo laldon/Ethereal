@@ -497,7 +497,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             &&  cmhist < CounterMoveHistoryLimit[improving])
             continue;
 
-        // Step 16a. Follow Up Move Pruning. Moves with poor follow up
+        // Step 16A. Follow Up Move Pruning. Moves with poor follow up
         // move history are pruned at near leaf nodes of the search.
         if (   !RootNode
             &&  isQuiet
@@ -506,7 +506,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             &&  fuhist < FollowUpMoveHistoryLimit[improving])
             continue;
 
-        // Step 16b. Supra Move Pruning. Moves with good follow up
+        // Step 16B. Supra Move Pruning. Moves with good follow up
         // move history but bad supra move history are pruned at 
         // near leaf nodes of the search.
         if (   !RootNode
@@ -558,7 +558,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
               || move == movePicker.counter;
 
             // Adjust based on history
-            R -= MAX(-2, MIN(2, hist / 5000));
+            R -= MAX(-2, MIN(2, hist / 6000));
 
             // Don't extend or drop into QS
             R  = MIN(depth - 1, MAX(R, 1));
