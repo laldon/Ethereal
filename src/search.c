@@ -224,7 +224,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
     Board* const board = &thread->board;
 
     unsigned tbresult;
-    int quiets = 0, played = 0, hist = 0, cmhist = 0, fuhist = 0;
+    int quiets = 0, played = 0, hist = 0, cmhist = 0, fuhist = 0, suhist = 0;
     int ttHit, ttValue = 0, ttEval = 0, ttDepth = 0, ttBound = 0;
     int i, R, newDepth, rAlpha, rBeta, oldAlpha = alpha;
     int inCheck, isQuiet, improving, extension, skipQuiets = 0;
@@ -464,7 +464,8 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             quietsTried[quiets++] = move;
             cmhist = getCMHistoryScore(thread, height, move);
             fuhist = getFUHistoryScore(thread, height, move);
-            hist   = getHistoryScore(thread, move) + cmhist + fuhist;
+			suhist = getSUHistoryScore(thread, height, move);
+            hist   = getHistoryScore(thread, move) + cmhist + fuhist + suhist;
         }
 
         // Step 13. Futility Pruning. If our score is far below alpha, and we
@@ -496,13 +497,23 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             &&  cmhist < CounterMoveHistoryLimit[improving])
             continue;
 
-        // Step 16. Follow Up Move Pruning. Moves with poor follow up
+        // Step 16a. Follow Up Move Pruning. Moves with poor follow up
         // move history are pruned at near leaf nodes of the search.
         if (   !RootNode
             &&  isQuiet
             &&  best > MATED_IN_MAX
             &&  depth <= FollowUpMovePruningDepth[improving]
             &&  fuhist < FollowUpMoveHistoryLimit[improving])
+            continue;
+
+        // Step 16b. Supra Move Pruning. Moves with good follow up
+        // move history but poor supra move history are pruned at 
+        // near leaf nodes of the search.
+        if (   !RootNode
+            &&  isQuiet
+            &&  best > MATED_IN_MAX
+            &&  depth <= SupraMovePruningDepth[improving]
+            &&  suhist < SupraMoveHistoryLimit[improving])
             continue;
 
         // Step 17. Static Exchange Evaluation Pruning. Prune moves which fail

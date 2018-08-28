@@ -31,5 +31,8 @@ void updateCMHistory(Thread *thread, int height, uint16_t move, int delta);
 int getFUHistoryScore(Thread *thread, int height, uint16_t move);
 void updateFUHistory(Thread *thread, int height, uint16_t move, int delta);
 
+int getSUHistoryScore(Thread *thread, int height, uint16_t move);
+void updateSUHistory(Thread *thread, int height, uint16_t move, int delta);
+
 uint16_t getCounterMove(Thread *thread, int height);
 void updateCounterMove(Thread *thread, int height, uint16_t move);

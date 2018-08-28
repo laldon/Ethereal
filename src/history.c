@@ -156,6 +156,56 @@ void updateFUHistory(Thread *thread, int height, uint16_t move, int delta) {
     thread->fuhistory[piece1][to1][piece2][to2] = entry;
 }
 
+int getSUHistoryScore(Thread *thread, int height, uint16_t move) {
+
+    int to1, to2, piece1, piece2;
+    uint16_t following = thread->moveStack[height-3];
+
+    // Check for root position or null moves
+    if (following == NULL_MOVE || following == NONE_MOVE)
+        return 0;
+
+    to1    = MoveTo(following);
+    piece1 = thread->pieceStack[height-3];
+
+    to2    = MoveTo(move);
+    piece2 = pieceType(thread->board.squares[MoveFrom(move)]);
+
+    assert(0 <= piece1 && piece1 < PIECE_NB);
+    assert(0 <= to1 && to1 < SQUARE_NB);
+    assert(0 <= piece2 && piece2 < PIECE_NB);
+    assert(0 <= to2 && to2 < SQUARE_NB);
+
+    return thread->fuhistory[piece1][to1][piece2][to2];
+}
+
+void updateSUHistory(Thread *thread, int height, uint16_t move, int delta) {
+
+    int entry, to1, to2, piece1, piece2;
+    uint16_t following = thread->moveStack[height-3];
+
+    // Check for root position or null moves
+    if (following == NULL_MOVE || following == NONE_MOVE)
+        return;
+
+    to1    = MoveTo(following);
+    piece1 = thread->pieceStack[height-3];
+
+    to2    = MoveTo(move);
+    piece2 = pieceType(thread->board.squares[MoveFrom(move)]);
+
+    assert(0 <= piece1 && piece1 < PIECE_NB);
+    assert(0 <= to1 && to1 < SQUARE_NB);
+    assert(0 <= piece2 && piece2 < PIECE_NB);
+    assert(0 <= to2 && to2 < SQUARE_NB);
+
+    delta = MAX(-400, MIN(400, delta));
+
+    entry = thread->fuhistory[piece1][to1][piece2][to2];
+    entry += 32 * delta - entry * abs(delta) / 512;
+    thread->fuhistory[piece1][to1][piece2][to2] = entry;
+}
+
 uint16_t getCounterMove(Thread *thread, int height) {
 
     int colour, to, piece;
