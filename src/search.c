@@ -460,7 +460,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
 
         // If this move is quiet we will save it to a list of attemped quiets.
         // Also lookup the history score, as we will in most cases need it.
-        if ((isQuiet = !moveIsTactical(board, move))){
+        if ((isQuiet = !moveIsTactical(board, move))) {
             quietsTried[quiets++] = move;
             cmhist = getCMHistoryScore(thread, height, move);
             fuhist = getFUHistoryScore(thread, height, move);

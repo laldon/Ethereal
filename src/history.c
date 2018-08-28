@@ -176,7 +176,7 @@ int getSUHistoryScore(Thread *thread, int height, uint16_t move) {
     assert(0 <= piece2 && piece2 < PIECE_NB);
     assert(0 <= to2 && to2 < SQUARE_NB);
 
-    return thread->fuhistory[piece1][to1][piece2][to2];
+    return thread->suhistory[piece1][to1][piece2][to2];
 }
 
 void updateSUHistory(Thread *thread, int height, uint16_t move, int delta) {
@@ -201,9 +201,9 @@ void updateSUHistory(Thread *thread, int height, uint16_t move, int delta) {
 
     delta = MAX(-400, MIN(400, delta));
 
-    entry = thread->fuhistory[piece1][to1][piece2][to2];
+    entry = thread->suhistory[piece1][to1][piece2][to2];
     entry += 32 * delta - entry * abs(delta) / 512;
-    thread->fuhistory[piece1][to1][piece2][to2] = entry;
+    thread->suhistory[piece1][to1][piece2][to2] = entry;
 }
 
 uint16_t getCounterMove(Thread *thread, int height) {

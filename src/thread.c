@@ -66,6 +66,7 @@ void resetThreadPool(Thread* threads){
         memset(&threads[i].history,   0, sizeof(HistoryTable    ));
         memset(&threads[i].cmhistory, 0, sizeof(CMHistoryTable  ));
         memset(&threads[i].fuhistory, 0, sizeof(FUHistoryTable  ));
+        memset(&threads[i].suhistory, 0, sizeof(SUHistoryTable  ));
         memset(&threads[i].cmtable,   0, sizeof(CounterMoveTable));
         memset(&threads[i].pktable,   0, sizeof(PawnKingTable   ));
     }
