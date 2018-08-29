@@ -94,8 +94,8 @@ static const int CounterMoveHistoryLimit[] = { 0, -1000 };
 static const int FollowUpMovePruningDepth[] = { 3, 2 };
 static const int FollowUpMoveHistoryLimit[] = { -2000, -4000 };
 
-static const int SupraMovePruningDepth[] = { 3, 2 };
-static const int SupraMoveHistoryLimit[] = { -4000, -8000 };
+static const int SupraMovePruningDepth[] = { 2, 1 };
+static const int SupraMoveHistoryLimit[] = { -3000, -5000 };
 
 static const int LateMovePruningDepth = 8;
 static const int LateMovePruningCounts[2][9] = {
