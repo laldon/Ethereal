@@ -41,6 +41,7 @@ void initMovePicker(MovePicker* mp, Thread* thread, uint16_t ttMove, int height)
     mp->tableMove = ttMove;
     mp->killer1   = thread->killers[height][0];
     mp->killer2   = thread->killers[height][1];
+    mp->killer3   = thread->killers[height][2];
     mp->counter   = getCounterMove(thread, height);
 
     // Threshold for good noisy
@@ -65,6 +66,7 @@ void initNoisyMovePicker(MovePicker* mp, Thread* thread, int threshold){
     mp->tableMove = NONE_MOVE;
     mp->killer1   = NONE_MOVE;
     mp->killer2   = NONE_MOVE;
+	mp->killer3   = NONE_MOVE;
     mp->counter   = NONE_MOVE;
 
     // Threshold for good noisy
@@ -145,6 +147,7 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
                 // Don't play the special moves twice
                 if (bestMove == mp->killer1) mp->killer1 = NONE_MOVE;
                 if (bestMove == mp->killer2) mp->killer2 = NONE_MOVE;
+				if (bestMove == mp->killer3) mp->killer3 = NONE_MOVE;
                 if (bestMove == mp->counter) mp->counter = NONE_MOVE;
 
                 return bestMove;
@@ -163,7 +166,7 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
 
     case STAGE_KILLER_1:
 
-        // Play killer move if not yet played, and psuedo legal
+        // Play killer move if not yet played, and pseudo legal
         mp->stage = STAGE_KILLER_2;
         if (   !skipQuiets
             &&  mp->killer1 != mp->tableMove
@@ -174,8 +177,8 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
 
     case STAGE_KILLER_2:
 
-        // Play killer move if not yet played, and psuedo legal
-        mp->stage = STAGE_COUNTER_MOVE;
+        // Play killer move if not yet played, and pseudo legal
+        mp->stage = STAGE_KILLER_3;
         if (   !skipQuiets
             &&  mp->killer2 != mp->tableMove
             &&  moveIsPsuedoLegal(board, mp->killer2))
@@ -183,6 +186,17 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
 
         /* fallthrough */
 
+    case STAGE_KILLER_3:
+
+        // Play killer move if not yet played, and pseudo legal
+        mp->stage = STAGE_COUNTER_MOVE;
+        if (   !skipQuiets
+            &&  mp->killer3 != mp->tableMove
+            &&  moveIsPsuedoLegal(board, mp->killer3))
+            return mp->killer3;
+
+        /* fallthrough */
+		
     case STAGE_COUNTER_MOVE:
 
         // Play counter move if not yet played, and psuedo legal
@@ -191,6 +205,7 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
             &&  mp->counter != mp->tableMove
             &&  mp->counter != mp->killer1
             &&  mp->counter != mp->killer2
+            &&  mp->counter != mp->killer3
             &&  moveIsPsuedoLegal(board, mp->counter))
             return mp->counter;
 
@@ -229,6 +244,7 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
             if (   bestMove == mp->tableMove
                 || bestMove == mp->killer1
                 || bestMove == mp->killer2
+				|| bestMove == mp->killer3
                 || bestMove == mp->counter)
                 return selectNextMove(mp, board, skipQuiets);
 
@@ -263,6 +279,7 @@ uint16_t selectNextMove(MovePicker* mp, Board* board, int skipQuiets){
             if (   bestMove == mp->tableMove
                 || bestMove == mp->killer1
                 || bestMove == mp->killer2
+				|| bestMove == mp->killer3
                 || bestMove == mp->counter)
                 return selectNextMove(mp, board, skipQuiets);
 

@@ -549,6 +549,7 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             // Reduce for Killers and Counters
             R -= move == movePicker.killer1
               || move == movePicker.killer2
+              || move == movePicker.killer3
               || move == movePicker.counter;
 
             // Adjust based on history
@@ -623,6 +624,11 @@ int search(Thread* thread, PVariation* pv, int alpha, int beta, int depth, int h
             if (isQuiet && thread->killers[height][0] != move){
                 thread->killers[height][1] = thread->killers[height][0];
                 thread->killers[height][0] = move;
+            }
+			
+            if (isQuiet && thread->killers[height][1] != move){
+                thread->killers[height][2] = thread->killers[height][1];
+                thread->killers[height][1] = move;
             }
 
             if (isQuiet)
