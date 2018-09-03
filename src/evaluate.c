@@ -98,7 +98,6 @@ const int BishopRammedPawns = S( -12, -10);
 const int BishopOutpost[2] = { S(  27,   0), S(  39,   0) };
 
 const int BishopBehindPawn = S(   4,  11);
-
 const int BishopMobility[14] = {
     S( -59,-128), S( -48, -67), S( -19, -46), S(  -7, -21),
     S(   4, -10), S(  18,   0), S(  23,   7), S(  27,   4),
@@ -136,7 +135,7 @@ const int QueenMobility[28] = {
 const int KingDefenders[12] = {
     S( -32,  -3), S( -15,   7), S(   0,   1), S(   9,  -1),
     S(  23,  -6), S(  34,   3), S(  32,  12), S(  24,   0),
-    S(  12,   6), S(  12,   6), S(  12,   6), S(  12,   6),
+    S(  12,   6), S(  12,   6), S(  12,   6), S(  12,   6)
 };
 
 const int KingShelter[2][FILE_NB][RANK_NB] = {
@@ -171,7 +170,7 @@ const int KingShelter[2][FILE_NB][RANK_NB] = {
    {S(   0,   0), S(  12,  -1), S(  -3,   0), S( -20,  -5),
     S( -20, -13), S(  23,  12), S( -58, -64), S( -43,  14)},
    {S(   0,   0), S(   8, -28), S(   9, -16), S( -22,   0),
-    S( -27,  -3), S(   7, -17), S(-240, -74), S( -44,  16)}},
+    S( -27,  -3), S(   7, -17), S(-240, -74), S( -44,  16)}}
 };
 
 const int KingStorm[2][FILE_NB/2][RANK_NB] = {
@@ -190,7 +189,7 @@ const int KingStorm[2][FILE_NB/2][RANK_NB] = {
    {S(   0,   0), S(  -1,  -1), S(  -8, -21), S(  -3,  -4),
     S(  -6,   5), S( -19,  -4), S(  -5,  -2), S(   0,   0)},
    {S(   0,   0), S(   0,   0), S(  -7, -19), S(  -3,  -3),
-    S(  -9,  -5), S(   7, -10), S(  15,   1), S(   1,   1)}},
+    S(  -9,  -5), S(   7, -10), S(  15,   1), S(   1,   1)}}
 };
 
 /* King Safety Evaluation Terms */
