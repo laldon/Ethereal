@@ -134,8 +134,8 @@ const int QueenMobility[28] = {
 /* King Evaluation Terms */
 
 const int KingDefenders[12] = {
-    S( -32,  -3), S( -15,   7), S(   0,   1), S(   9,  -1),
-    S(  23,  -6), S(  34,   3), S(  32,  12), S(  24,   0),
+    S( -31,  -2), S( -14,   6), S(   0,   1), S(   9,   0),
+    S(  22,  -6), S(  33,   2), S(  31,  11), S(  23,   0),
     S(  12,   6), S(  12,   6), S(  12,   6), S(  12,   6),
 };
 
@@ -175,22 +175,22 @@ const int KingShelter[2][FILE_NB][RANK_NB] = {
 };
 
 const int KingStorm[2][FILE_NB/2][RANK_NB] = {
-  {{S(   2,   6), S(  33,  21), S(  -6,   9), S( -14,   4),
-    S(  -2,  -1), S(  -6,  -2), S( -12,   3), S(  -3,   3)},
-   {S(   5,  25), S(  12,  19), S(  -7,   4), S(  -5,  -2),
-    S(   0,  -1), S(   4,  -7), S(   1,   4), S(  -5,   8)},
-   {S(   3,  17), S(   3,  20), S( -12,   4), S( -18,   0),
-    S(   3,  -4), S(   2,  -3), S(   0,   0), S(   3,   3)},
-   {S(   5,  16), S(   6,  20), S(  -6,  -5), S( -20,  -7),
-    S(  -9,  -5), S(   3, -10), S(  -1,  -4), S( -14,   3)}},
-  {{S(   0,   0), S(   0,   0), S(   7, -12), S(  21, -14),
-    S(   6,  -1), S(  -2,  -6), S(  -7,  -1), S(   0,   1)},
-   {S(   0,   0), S(   0,   0), S(   0, -20), S(  28,  -9),
-    S(   0,   2), S(  -3,   0), S(  -1,   0), S(  -2,   0)},
-   {S(   0,   0), S(  -1,  -1), S(  -8, -21), S(  -3,  -4),
-    S(  -6,   5), S( -19,  -4), S(  -5,  -2), S(   0,   0)},
-   {S(   0,   0), S(   0,   0), S(  -7, -19), S(  -3,  -3),
-    S(  -9,  -5), S(   7, -10), S(  15,   1), S(   1,   1)}},
+  {{S(   2,   6), S(  33,  20), S(  -5,   9), S( -14,   3),
+    S(  -2,  -1), S(  -5,  -2), S( -11,   3), S(  -3,   2)},
+   {S(   5,  25), S(  12,  18), S(  -6,   3), S(  -5,  -2),
+    S(   0,   0), S(   4,  -6), S(   0,   3), S(  -5,   7)},
+   {S(   3,  17), S(   3,  20), S( -11,   4), S( -17,   0),
+    S(   3,  -3), S(   2,  -2), S(   0,   0), S(   2,   2)},
+   {S(   5,  16), S(   6,  20), S(  -5,  -4), S( -20,  -6),
+    S(  -9,  -4), S(   3,  -9), S(   0,  -3), S( -14,   3)}},
+  {{S(   0,   0), S(   0,   0), S(   6, -12), S(  20, -14),
+    S(   6,   0), S(  -1,  -6), S(  -6,   0), S(   0,   1)},
+   {S(   0,   0), S(   0,   0), S(   0, -20), S(  28,  -8),
+    S(   0,   1), S(  -2,   0), S(  -1,   0), S(  -2,   0)},
+   {S(   0,   0), S(  -1,  -1), S(  -8, -20), S(  -2,  -3),
+    S(  -6,   4), S( -18,  -4), S(  -4,  -1), S(   0,   0)},
+   {S(   0,   0), S(   0,   0), S(  -6, -18), S(  -2,  -2),
+    S(  -9,  -5), S(   6, -10), S(  15,   1), S(   1,   1)}},
 };
 
 /* King Safety Evaluation Terms */
@@ -227,13 +227,13 @@ const int PassedSafePromotionPath = S(   1,  25);
 
 /* Threat Evaluation Terms */
 
-const int ThreatWeakPawn             = S( -37, -39);
-const int ThreatMinorAttackedByPawn  = S( -68, -54);
-const int ThreatMinorAttackedByMajor = S( -47, -44);
+const int ThreatWeakPawn             = S( -36, -38);
+const int ThreatMinorAttackedByPawn  = S( -67, -53);
+const int ThreatMinorAttackedByMajor = S( -46, -44);
 const int ThreatRookAttackedByLesser = S( -55, -25);
-const int ThreatQueenAttackedByOne   = S( -97,   1);
+const int ThreatQueenAttackedByOne   = S( -97,   0);
 const int ThreatOverloadedPieces     = S( -10, -26);
-const int ThreatByPawnPush           = S(  20,  16);
+const int ThreatByPawnPush           = S(  17,  15);
 
 /* General Evaluation Terms */
 
