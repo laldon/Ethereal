@@ -190,7 +190,7 @@ int aspirationWindow(Thread* thread, int depth){
 
     // Keep trying larger windows until one works
     while (1) {
-        if (consecutiveFailHigh == 2 && depth >= 36)
+        if (consecutiveFailHigh == 2 && depth > 20)
              depth -= 3;
 
         // Perform the search on the modified window
