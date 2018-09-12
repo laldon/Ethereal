@@ -60,26 +60,26 @@ const int PieceValues[8][PHASE_NB] = {
 
 /* Pawn Evaluation Terms */
 
-const int PawnCandidatePasser[2][RANK_NB] = {
-   {S(   0,   0), S(  -3,   0), S(  -9,   5), S( -11,  27),
-    S(   4,  45), S(  25,  18), S(   0,   0), S(   0,   0)},
-   {S(   0,   0), S(  -3,   6), S(  -4,  20), S(  13,  56),
-    S(  29,  70), S(  14,  10), S(   0,   0), S(   0,   0)},
+const int PawnCandidatePasser[2][8] = {
+   {S(   0,   0), S(  -3,   0), S(  -9,   5), S( -10,  27),
+    S(   1,  44), S(  23,  17), S(   0,   0), S(   0,   0)},
+   {S(   0,   0), S(  -3,   6), S(  -5,  19), S(   9,  51),
+    S(  24,  65), S(  14,  10), S(   0,   0), S(   0,   0)},
 };
 
 const int PawnIsolated = S( -15, -12);
 
-const int PawnStacked = S(   0, -15);
+const int PawnStacked = S(  -2, -25);
 
-const int PawnBackwards[2] = { S(   5, -13), S( -13, -14) };
+const int PawnBackwards[2] = { S(   0,  -7), S( -11, -15) };
 
 const int PawnConnected32[32] = {
     S(   0,   0), S(   0,   0), S(   0,   0), S(   0,   0),
-    S(   1,  -1), S(  17,   8), S(   8,   7), S(  13,  19),
-    S(  27,   9), S(  39,   6), S(  25,  16), S(  37,  24),
-    S(   7,   3), S(  27,   9), S(  16,  12), S(  28,  20),
-    S(   7,  13), S(  26,  18), S(  33,  26), S(  49,  20),
-    S(  26,  54), S(  26,  65), S(  65,  62), S(  52,  74),
+    S(   0,  -8), S(  15,   2), S(   5,   1), S(   6,  18),
+    S(  16,   3), S(  26,   1), S(  16,   7), S(  20,  15),
+    S(   4,   0), S(  20,   5), S(  13,   8), S(  24,  16),
+    S(   4,  10), S(  20,  15), S(  21,  23), S(  41,  20),
+    S(  24,  53), S(  24,  64), S(  64,  61), S(  50,  73),
     S( 103, -14), S( 196,  14), S( 227,  20), S( 249,  73),
     S(   0,   0), S(   0,   0), S(   0,   0), S(   0,   0),
 };
@@ -216,25 +216,25 @@ const int KSAdjustment      =  -18;
 /* Passed Pawn Evaluation Terms */
 
 const int PassedPawn[2][2][8] = {
-  {{S(   0,   0), S( -29, -26), S( -22,   2), S( -10,   0),
-    S(  17,   0), S(  56,   2), S( 141,  32), S(   0,   0)},
-   {S(   0,   0), S(  -7, -10), S( -24,   9), S( -16,  22),
-    S(   2,  43), S(  67,  69), S( 192, 140), S(   0,   0)}},
-  {{S(   0,   0), S( -17,   0), S( -21,  -3), S( -11,  20),
-    S(  25,  40), S(  79,  81), S( 238, 159), S(   0,   0)},
-   {S(   0,   0), S( -22, -10), S( -17,  -5), S( -15,  36),
-    S(  -2, 101), S(  43, 223), S( 124, 380), S(   0,   0)}},
+  {{S(   0,   0), S( -28, -25), S( -22,   2), S( -11,   0),
+    S(  15,   0), S(  54,   0), S( 141,  31), S(   0,   0)},
+   {S(   0,   0), S(  -5,  -7), S( -23,  10), S( -15,  24),
+    S(   2,  41), S(  65,  66), S( 191, 136), S(   0,   0)}},
+  {{S(   0,   0), S( -12,   4), S( -18,   0), S(  -9,  20),
+    S(  26,  37), S(  76,  75), S( 238, 158), S(   0,   0)},
+   {S(   0,   0), S( -22,  -7), S( -16,  -2), S( -16,  34),
+    S(  -1, 101), S(  43, 222), S( 124, 380), S(   0,   0)}},
 };
 
 const int PassedPawnFile[4] = {
-    S(   9,  14), S(   0,  12), S( -11,   0), S(   0,   0),
+    S(   6,  12), S(   0,   9), S(  -5,   1), S(   0,   0),
 };
 
-const int PassedFriendlyDistance = S(  13,  -8);
+const int PassedFriendlyDistance = S(   7,  -4);
 
-const int PassedEnemyDistance = S(  -6,  17);
+const int PassedEnemyDistance = S(   0,  14);
 
-const int PassedSafePromotionPath = S(  -1,  28);
+const int PassedSafePromotionPath = S(   0,  26);
 
 /* Threat Evaluation Terms */
 
