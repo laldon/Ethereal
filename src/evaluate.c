@@ -760,6 +760,10 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
         eval += PassedPawn[canAdvance][safeAdvance][rank];
         if (TRACE) T.PassedPawn[canAdvance][safeAdvance][rank][US]++;
 
+        // Evaluate based on file, mirrored across the center
+        eval += PassedPawnFile[mirrorFile(fileOf(sq))];
+        if (TRACE) T.PassedPawnFile[mirrorFile(fileOf(sq))][US]++;
+
         // Evaluate based on distance from our king
         dist = distanceBetween(sq, ei->kingSquare[US]);
         eval += dist * PassedFriendlyDistance;
