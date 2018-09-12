@@ -226,6 +226,10 @@ const int PassedPawn[2][2][8] = {
     S(  -1, 101), S(  44, 223), S( 125, 381), S(   0,   0)}},
 };
 
+const int PassedPawnFile[4] = {
+    S(   9,  14), S(   0,  12), S( -11,   0), S(   0,   0),
+};
+
 const int PassedFriendlyDistance = S(   4,  -6);
 
 const int PassedEnemyDistance = S(  -1,   8);
