@@ -25,11 +25,11 @@
 #define CLEARING    (      1) // Clear hashes between runs
 #define RESOLVE     (      1) // Resolve with qsearch
 #define NPARTITIONS (     64) // Total thread partitions
-#define LEARNING    (    1.0) // Learning rate step size
+#define LEARNING    (    0.5) // Learning rate step size
 #define REPORTING   (    100) // How often to report progress
 
-#define NDEPTHS     (      0) // # of search iterations
-#define NTERMS      (      0) // # of terms to tune
+#define NDEPTHS     (      6) // # of search iterations
+#define NTERMS      (    123) // # of terms to tune
 #define NPOSITIONS  (1364312) // # of FENs in book
 
 #define TunePawnValue                   (0)
@@ -38,17 +38,17 @@
 #define TuneRookValue                   (0)
 #define TuneQueenValue                  (0)
 #define TuneKingValue                   (0)
-#define TunePawnPSQT32                  (0)
+#define TunePawnPSQT32                  (1)
 #define TuneKnightPSQT32                (0)
 #define TuneBishopPSQT32                (0)
 #define TuneRookPSQT32                  (0)
 #define TuneQueenPSQT32                 (0)
 #define TuneKingPSQT32                  (0)
-#define TunePawnCandidatePasser         (0)
-#define TunePawnIsolated                (0)
-#define TunePawnStacked                 (0)
-#define TunePawnBackwards               (0)
-#define TunePawnConnected32             (0)
+#define TunePawnCandidatePasser         (1)
+#define TunePawnIsolated                (1)
+#define TunePawnStacked                 (1)
+#define TunePawnBackwards               (1)
+#define TunePawnConnected32             (1)
 #define TuneKnightOutpost               (0)
 #define TuneKnightBehindPawn            (0)
 #define TuneKnightMobility              (0)
@@ -64,10 +64,11 @@
 #define TuneKingDefenders               (0)
 #define TuneKingShelter                 (0)
 #define TuneKingStorm                   (0)
-#define TunePassedPawn                  (0)
-#define TunePassedFriendlyDistance      (0)
-#define TunePassedEnemyDistance         (0)
-#define TunePassedSafePromotionPath     (0)
+#define TunePassedPawn                  (1)
+#define TunePassedPawnFile              (1)
+#define TunePassedFriendlyDistance      (1)
+#define TunePassedEnemyDistance         (1)
+#define TunePassedSafePromotionPath     (1)
 #define TuneThreatWeakPawn              (0)
 #define TuneThreatMinorAttackedByPawn   (0)
 #define TuneThreatMinorAttackedByMinor  (0)
@@ -220,6 +221,7 @@ void printParameters_3(char *name, int params[NTERMS][PHASE_NB], int i, int A, i
     ENABLE_3(fname, KingShelter, 2, 8, 8);                      \
     ENABLE_3(fname, KingStorm, 2, 4, 8);                        \
     ENABLE_3(fname, PassedPawn, 2, 2, 8);                       \
+    ENABLE_1(fname, PassedPawnFile, 4);                         \
     ENABLE_0(fname, PassedFriendlyDistance);                    \
     ENABLE_0(fname, PassedEnemyDistance);                       \
     ENABLE_0(fname, PassedSafePromotionPath);                   \
