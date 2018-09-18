@@ -28,8 +28,8 @@
 #define LEARNING    (    1.0) // Learning rate step size
 #define REPORTING   (    100) // How often to report progress
 
-#define NDEPTHS     (      0) // # of search iterations
-#define NTERMS      (      0) // # of terms to tune
+#define NDEPTHS     (      4) // # of search iterations
+#define NTERMS      (      1) // # of terms to tune
 #define NPOSITIONS  (1364312) // # of FENs in book
 
 #define TunePawnValue                   (0)
@@ -75,7 +75,7 @@
 #define TuneThreatRookAttackedByLesser  (0)
 #define TuneThreatQueenAttackedByOne    (0)
 #define TuneThreatOverloadedPieces      (0)
-#define TuneThreatByPawnPush            (0)
+#define TuneThreatByPawnPush            (1)
 
 // Size of each allocated chunk
 #define STACKSIZE ((int)((double) NPOSITIONS * NTERMS / 16))
