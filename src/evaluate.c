@@ -810,13 +810,12 @@ int evaluateThreats(EvalInfo *ei, Board *board, int colour) {
                         & ei->attacked[  US] & ~ei->attackedBy2[  US]
                         & ei->attacked[THEM] & ~ei->attackedBy2[THEM];
 
-    // Look for enemy non-pawn pieces which we may threaten with a pawn advance.
-    // Don't consider pieces we already threaten, pawn moves which would be countered
-    // by a pawn capture, and squares which are completely unprotected by our pieces.
-    uint64_t pushThreat  = pawnAdvance(pawns, occupied, US);
-    pushThreat |= pawnAdvance(pushThreat & ~attacksByPawns & Rank3Rel, occupied, US);
-    pushThreat &= ~attacksByPawns & (ei->attacked[US] | ~ei->attacked[THEM]);
-    pushThreat  = pawnAttackSpan(pushThreat, enemy & ~ei->attackedBy[US][PAWN], US);
+    // Look for enemy pieces which we may threaten with a pawn advance.
+    // Don't consider squares which are completely unprotected by our pieces.
+    uint64_t pushThreat = pawnAdvance(pawns, occupied, US);
+    pushThreat |= pawnAdvance(pushThreat & Rank3Rel, occupied, US);
+    pushThreat &= (ei->attacked[US] | ~ei->attacked[THEM]);
+    pushThreat  = pawnAttackSpan(pushThreat, enemy, US);
 
     // Penalty for each of our poorly supported pawns
     count = popcount(pawns & ~attacksByPawns & poorlyDefended);
