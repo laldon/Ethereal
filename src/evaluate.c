@@ -205,6 +205,7 @@ const int KingStorm[2][FILE_NB/2][RANK_NB] = {
 const int KSAttackWeight[]  = { 0, 16, 6, 10, 8, 0 };
 const int KSAttackValue     =   44;
 const int KSWeakSquares     =   38;
+const int KSBackranked      =   10;
 const int KSFriendlyPawns   =  -22;
 const int KSNoEnemyQueens   = -276;
 const int KSSafeQueenCheck  =   95;
@@ -673,6 +674,11 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
         uint64_t safe =  ~board->colours[THEM]
                       & (~ei->attacked[US] | (weak & ei->attackedBy2[THEM]));
 
+        uint64_t forwardRank = US == WHITE ? Ranks[rankOf(kingSq)] << 8
+                                           : Ranks[rankOf(kingSq)] >> 8;
+        uint64_t canAdvance  = ei->attackedBy[US][KING] & ~board->colours[US]
+                                 & forwardRank          & ~ei->attacked[THEM];
+
         // Find square and piece combinations which would check our King
         uint64_t occupied      = board->colours[WHITE] | board->colours[BLACK];
         uint64_t knightThreats = knightAttacks(kingSq);
@@ -693,6 +699,7 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
 
         count += KSAttackValue     * scaledAttackCounts
                + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
+               + KSBackranked      * !!canAdvance
                + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
                + KSNoEnemyQueens   * !enemyQueens
                + KSSafeQueenCheck  * !!queenChecks
