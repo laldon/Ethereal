@@ -73,6 +73,7 @@
 #define TuneThreatMinorAttackedByMinor  (0)
 #define TuneThreatMinorAttackedByMajor  (0)
 #define TuneThreatRookAttackedByLesser  (0)
+#define TuneThreatRookAttackedByMajor   (0)
 #define TuneThreatQueenAttackedByOne    (0)
 #define TuneThreatOverloadedPieces      (0)
 #define TuneThreatByPawnPush            (0)
@@ -228,6 +229,7 @@ void printParameters_3(char *name, int params[NTERMS][PHASE_NB], int i, int A, i
     ENABLE_0(fname, ThreatMinorAttackedByMinor);                \
     ENABLE_0(fname, ThreatMinorAttackedByMajor);                \
     ENABLE_0(fname, ThreatRookAttackedByLesser);                \
+    ENABLE_0(fname, ThreatRookAttackedByMajor);                 \
     ENABLE_0(fname, ThreatQueenAttackedByOne);                  \
     ENABLE_0(fname, ThreatOverloadedPieces);                    \
     ENABLE_0(fname, ThreatByPawnPush);                          \
