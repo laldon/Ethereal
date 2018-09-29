@@ -691,33 +691,33 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
 
         count  = ei->kingAttackersCount[THEM] * ei->kingAttackersWeight[THEM];
 
-        count += (KSAttackValue     * scaledAttackCounts
-                + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
-                + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
-                + KSNoEnemyQueens   * !enemyQueens
-                + KSSafeQueenCheck  * !!queenChecks
-                + KSSafeRookCheck   * !!rookChecks
-                + KSSafeBishopCheck * !!bishopChecks
-                + KSSafeKnightCheck * !!knightChecks
-                + KSAdjustment < 0) ? 
-                 (KSAttackValue     * scaledAttackCounts
-                + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
-                + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
-                + KSNoEnemyQueens   * !enemyQueens
-                + KSSafeQueenCheck  * !!queenChecks
-                + KSSafeRookCheck   * !!rookChecks
-                + KSSafeBishopCheck * !!bishopChecks
-                + KSSafeKnightCheck * !!knightChecks
-                + KSAdjustment)     : 
-             pow((KSAttackValue     * scaledAttackCounts
-                + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
-                + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
-                + KSNoEnemyQueens   * !enemyQueens
-                + KSSafeQueenCheck  * !!queenChecks
-                + KSSafeRookCheck   * !!rookChecks
-                + KSSafeBishopCheck * !!bishopChecks
-                + KSSafeKnightCheck * !!knightChecks
-                + KSAdjustment < 0), 1.05);
+        count += ((KSAttackValue     * scaledAttackCounts
+                 + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
+                 + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
+                 + KSNoEnemyQueens   * !enemyQueens
+                 + KSSafeQueenCheck  * !!queenChecks
+                 + KSSafeRookCheck   * !!rookChecks
+                 + KSSafeBishopCheck * !!bishopChecks
+                 + KSSafeKnightCheck * !!knightChecks
+                 + KSAdjustment < 0) ? 
+                  (KSAttackValue     * scaledAttackCounts
+                 + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
+                 + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
+                 + KSNoEnemyQueens   * !enemyQueens
+                 + KSSafeQueenCheck  * !!queenChecks
+                 + KSSafeRookCheck   * !!rookChecks
+                 + KSSafeBishopCheck * !!bishopChecks
+                 + KSSafeKnightCheck * !!knightChecks
+                 + KSAdjustment)     : 
+              pow((KSAttackValue     * scaledAttackCounts
+                 + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
+                 + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
+                 + KSNoEnemyQueens   * !enemyQueens
+                 + KSSafeQueenCheck  * !!queenChecks
+                 + KSSafeRookCheck   * !!rookChecks
+                 + KSSafeBishopCheck * !!bishopChecks
+                 + KSSafeKnightCheck * !!knightChecks
+                 + KSAdjustment), 1.05));
 
         // Convert safety to an MG and EG score, if we are unsafe
         if (count > 0) eval -= MakeScore(count * count / 720, count / 20);
