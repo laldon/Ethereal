@@ -98,9 +98,9 @@ const int KnightMobility[9] = {
 
 /* Bishop Evaluation Terms */
 
-const int BishopPair = S(  32,  70);
+const int BishopPair = S(  32,  65);
 
-const int BishopRammedPawns = S( -11, -12);
+const int BishopRammedPawns = S( -12, -12);
 
 const int BishopOutpost[2] = { S(  24,   1), S(  40,   0) };
 
@@ -115,7 +115,7 @@ const int BishopMobility[14] = {
 
 /* Rook Evaluation Terms */
 
-const int RookFile[2] = { S(  11,   0), S(  41,  -1) };
+const int RookFile[2] = { S(  11,   0), S(  41,   0) };
 
 const int RookOnSeventh = S(   0,  25);
 
@@ -134,7 +134,7 @@ const int QueenMobility[28] = {
     S( -12, -61), S( -10, -51), S(  -3, -28), S(  -2, -27),
     S(  -4, -16), S(   3,  -7), S(   2,  -2), S(   0,   3),
     S(   6,  16), S(   0,  13), S(  12,  21), S(   1,  20),
-    S(   0,  18), S(  19,  22), S(   5,  -1), S(  32,   5),
+    S(   0,  18), S(  19,  22), S(   5,   0), S(  32,   5),
     S(  34,  13), S(  56,  -6), S( -51, -17), S(   0,   0),
 };
 
@@ -202,7 +202,7 @@ const int KingStorm[2][FILE_NB/2][RANK_NB] = {
 
 /* King Safety Evaluation Terms */
 
-const int KSAttackWeight[]  = { 0, 16, 6, 10, 8, 0 };
+const int KSAttackWeight[]  = { 0, 16, 6, 10, 8, 1 };
 const int KSAttackValue     =   44;
 const int KSWeakSquares     =   38;
 const int KSFriendlyPawns   =  -22;
