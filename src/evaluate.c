@@ -202,7 +202,7 @@ const int KingStorm[2][FILE_NB/2][RANK_NB] = {
 
 /* King Safety Evaluation Terms */
 
-const int KSAttackWeight[]  = { 2, 16, 6, 10, 8, 3 };
+const int KSAttackWeight[]  = { 1, 16, 6, 10, 8, 2 };
 const int KSAttackValue     =   44;
 const int KSWeakSquares     =   38;
 const int KSFriendlyPawns   =  -22;
@@ -329,6 +329,8 @@ int evaluatePawns(EvalInfo *ei, Board *board, int colour) {
     // Update attacker counts for King Safety computation
     attacks = ei->pawnAttacks[US] & ei->kingAreas[THEM];
     ei->kingAttacksCount[US] += popcount(attacks);
+    ei->kingAttackersCount[US] += 1;
+    ei->kingAttackersWeight[US] += KSAttackWeight[PAWN];
 
     // Pawn hash holds the rest of the pawn evaluation
     if (ei->pkentry != NULL) return eval;
@@ -633,6 +635,7 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
     const int US = colour, THEM = !colour;
 
     int count, eval = 0;
+    uint64_t attacks;
 
     uint64_t myPawns     = board->pieces[PAWN ] & board->colours[  US];
     uint64_t enemyPawns  = board->pieces[PAWN ] & board->colours[THEM];
@@ -657,6 +660,14 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
     // Perform King Safety when we have two attackers, or
     // one attacker with a potential for a Queen attacker
     if (ei->kingAttackersCount[THEM] > 1 - popcount(enemyQueens)) {
+
+        // Update for King Safety calculation
+        attacks = ei->attackedBy[US][KING] & ei->kingAreas[THEM];
+        if (attacks) {
+            ei->kingAttacksCount[US] += popcount(attacks);
+            ei->kingAttackersCount[US] += 1;
+            ei->kingAttackersWeight[US] += KSAttackWeight[KING];
+        }
 
         // Weak squares are attacked by the enemy, defended no more
         // than once and only defended by our Queens or our King
