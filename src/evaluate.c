@@ -398,6 +398,7 @@ int evaluatePawns(EvalInfo *ei, Board *board, int colour) {
 int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
+    const uint64_t firstRank = (US == WHITE ? RANK_1 : RANK_8);
 
     int sq, defended, count, eval = 0;
     uint64_t attacks;
@@ -438,7 +439,7 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the knight
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count = popcount(ei->mobilityAreas[US] & attacks & ~firstRank);
         eval += KnightMobility[count];
         if (TRACE) T.KnightMobility[count][US]++;
 
@@ -457,6 +458,7 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
+    const uint64_t firstRank = (US == WHITE ? RANK_1 : RANK_8);
 
     int sq, defended, count, eval = 0;
     uint64_t attacks;
@@ -509,7 +511,7 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the bishop
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count = popcount(ei->mobilityAreas[US] & attacks & ~firstRank);
         eval += BishopMobility[count];
         if (TRACE) T.BishopMobility[count][US]++;
 
@@ -588,6 +590,7 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
 int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
+    const uint64_t firstRank = (US == WHITE ? RANK_1 : RANK_8);
 
     int sq, count, eval = 0;
     uint64_t tempQueens, attacks;
@@ -612,7 +615,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
         ei->attackedBy[US][QUEEN] |= attacks;
 
         // Apply a bonus (or penalty) based on the mobility of the queen
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count = popcount(ei->mobilityAreas[US] & attacks & ~firstRank);
         eval += QueenMobility[count];
         if (TRACE) T.QueenMobility[count][US]++;
 
