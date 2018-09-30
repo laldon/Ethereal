@@ -91,9 +91,9 @@ const int KnightOutpost[2] = { S(  15,  -5), S(  32,   3) };
 const int KnightBehindPawn = S(   4,  18);
 
 const int KnightMobility[9] = {
-    S( -90, -85), S( -36, -94), S( -22, -41), S(  -6, -14),
-    S(   2, -14), S(   8,   2), S(  17,   3), S(  33,  -1),
-    S(  53, -41),
+    S( -93, -85), S( -49, -97), S( -33, -45), S( -15, -17),
+    S(   5, -15), S(  17,   7), S(  33,  10), S(  45,   8),
+    S(  57, -34),
 };
 
 /* Bishop Evaluation Terms */
@@ -107,10 +107,10 @@ const int BishopOutpost[2] = { S(  24,   1), S(  40,   0) };
 const int BishopBehindPawn = S(   3,  13);
 
 const int BishopMobility[14] = {
-    S( -60,-128), S( -48, -68), S( -16, -47), S(  -5, -21),
-    S(   5, -11), S(  19,   0), S(  24,   7), S(  26,   6),
-    S(  26,  12), S(  34,   6), S(  36,   4), S(  46, -13),
-    S(  46,  -2), S(  40, -33),
+    S( -61,-129), S( -60, -73), S( -25, -56), S( -10, -28),
+    S(   5, -14), S(  19,   1), S(  20,  12), S(  26,  11),
+    S(  30,  18), S(  37,  10), S(  38,   7), S(  46, -11),
+    S(  46,  -1), S(  40, -33),
 };
 
 /* Rook Evaluation Terms */
@@ -120,22 +120,22 @@ const int RookFile[2] = { S(  11,   0), S(  41,  -1) };
 const int RookOnSeventh = S(   0,  25);
 
 const int RookMobility[15] = {
-    S(-147,-107), S( -71,-120), S( -20, -69), S( -11, -28),
-    S(  -9,  -7), S(  -9,   8), S(  -9,  21), S(  -1,  27),
-    S(   3,  35), S(   7,  36), S(  10,  45), S(  21,  49),
-    S(  22,  52), S(  28,  48), S(  21,  48),
+    S(-147,-107), S( -75,-120), S( -55, -73), S( -35, -37),
+    S( -29, -15), S( -23,  -1), S(  -5,  13), S(   5,  19),
+    S(  16,  33), S(  25,  38), S(  28,  53), S(  43,  61),
+    S(  35,  64), S(  37,  58), S(  26,  56),
 };
 
 /* Queen Evaluation Terms */
 
 const int QueenMobility[28] = {
-    S( -61,-263), S(-217,-390), S( -48,-205), S( -38,-190),
-    S( -13,-132), S( -28, -69), S( -17, -90), S( -22, -76),
-    S( -12, -61), S( -10, -51), S(  -3, -28), S(  -2, -27),
-    S(  -4, -16), S(   3,  -7), S(   2,  -2), S(   0,   3),
-    S(   6,  16), S(   0,  13), S(  12,  21), S(   1,  20),
-    S(   0,  18), S(  19,  22), S(   5,  -1), S(  32,   5),
-    S(  34,  13), S(  56,  -6), S( -51, -17), S(   0,   0),
+    S( -61,-263), S(-217,-390), S( -57,-205), S( -61,-190),
+    S( -28,-133), S( -38, -72), S( -20, -93), S( -17, -79),
+    S(  -6, -63), S(  -2, -51), S(   3, -26), S(   2, -25),
+    S(   5, -13), S(  11,  -4), S(   7,   0), S(   4,   5),
+    S(   8,  17), S(   3,  15), S(  13,  22), S(   2,  20),
+    S(   0,  18), S(  19,  22), S(   5,   0), S(  32,   5),
+    S(  34,  13), S(  56,  -5), S( -51, -17), S(   0,   0),
 };
 
 /* King Evaluation Terms */
@@ -398,6 +398,7 @@ int evaluatePawns(EvalInfo *ei, Board *board, int colour) {
 int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
+    const uint64_t firstRank = (US == WHITE ? RANK_1 : RANK_8);
 
     int sq, defended, count, eval = 0;
     uint64_t attacks;
@@ -438,7 +439,7 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the knight
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count = popcount(ei->mobilityAreas[US] & attacks & ~firstRank);
         eval += KnightMobility[count];
         if (TRACE) T.KnightMobility[count][US]++;
 
@@ -457,6 +458,7 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
+    const uint64_t firstRank = (US == WHITE ? RANK_1 : RANK_8);
 
     int sq, defended, count, eval = 0;
     uint64_t attacks;
@@ -509,7 +511,7 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the bishop
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count = popcount(ei->mobilityAreas[US] & attacks & ~firstRank);
         eval += BishopMobility[count];
         if (TRACE) T.BishopMobility[count][US]++;
 
@@ -588,6 +590,7 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
 int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
+    const uint64_t firstRank = (US == WHITE ? RANK_1 : RANK_8);
 
     int sq, count, eval = 0;
     uint64_t tempQueens, attacks;
@@ -612,7 +615,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
         ei->attackedBy[US][QUEEN] |= attacks;
 
         // Apply a bonus (or penalty) based on the mobility of the queen
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count = popcount(ei->mobilityAreas[US] & attacks & ~firstRank);
         eval += QueenMobility[count];
         if (TRACE) T.QueenMobility[count][US]++;
 
