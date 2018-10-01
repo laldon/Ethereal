@@ -247,7 +247,7 @@ const int ThreatByPawnPush           = S(  20,  16);
 
 const int Tempo[COLOUR_NB] = { S(  25,  12), S( -25, -12) };
 
-const int CenterControl = S(  3,  0);
+const int CenterControl = S(  2,  0);
 
 #undef S
 
@@ -597,7 +597,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, count, cc, eval = 0;
+    int sq, count, eval = 0;
     uint64_t tempQueens, attacks;
 
     tempQueens = board->pieces[QUEEN] & board->colours[US];
@@ -621,9 +621,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
         // Apply a bonus (or penalty) based on the mobility of the queen
         count = popcount(ei->mobilityAreas[US] & attacks);
-        cc    = popcount(ei->mobilityAreas[US] & attacks & CENTER);
         eval += QueenMobility[count];
-        eval += (CenterControl * cc);
         if (TRACE) T.QueenMobility[count][US]++;
 
         // Update for King Safety calculation
