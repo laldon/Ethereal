@@ -917,8 +917,8 @@ void initializeEvalInfo(EvalInfo* ei, Board* board, PawnKingTable* pktable){
     ei->kingAreas[WHITE] = kingAreaMasks(WHITE, wKingSq);
     ei->kingAreas[BLACK] = kingAreaMasks(BLACK, bKingSq);
 
-    ei->mobilityAreas[WHITE] = ~(ei->pawnAttacks[BLACK] | (white & kings) | ei->blockedPawns[WHITE]);
-    ei->mobilityAreas[BLACK] = ~(ei->pawnAttacks[WHITE] | (black & kings) | ei->blockedPawns[BLACK]);
+    ei->mobilityAreas[WHITE] = ~(ei->pawnAttacks[BLACK] | ei->blockedPawns[WHITE]);
+    ei->mobilityAreas[BLACK] = ~(ei->pawnAttacks[WHITE] | ei->blockedPawns[BLACK]);
 
     ei->attacked[WHITE] = ei->attackedBy[WHITE][KING] = kingAttacks(wKingSq);
     ei->attacked[BLACK] = ei->attackedBy[BLACK][KING] = kingAttacks(bKingSq);
