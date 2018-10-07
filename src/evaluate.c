@@ -693,9 +693,9 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
                + KSWeakSquares     * popcount(weak & ei->kingAreas[US])
                + KSFriendlyPawns   * popcount(myPawns & ei->kingAreas[US] & ~weak)
                + KSNoEnemyQueens   * !enemyQueens
-               + KSSafeQueenCheck  * MAX(popcount(queenChecks),  4)
-               + KSSafeRookCheck   * MAX(popcount(rookChecks),   4)
-               + KSSafeBishopCheck * MAX(popcount(bishopChecks), 4)
+               + KSSafeQueenCheck  * MIN(popcount(queenChecks),  4)
+               + KSSafeRookCheck   * MIN(popcount(rookChecks),   4)
+               + KSSafeBishopCheck * MIN(popcount(bishopChecks), 4)
                + KSSafeKnightCheck * popcount(knightChecks)
                + KSAdjustment;
 
