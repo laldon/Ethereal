@@ -238,6 +238,8 @@ const int PassedEnemyDistance[RANK_NB] = {
 
 const int PassedSafePromotionPath = S(   0,  26);
 
+const int PassedBlocker = S(  -1,  -5);
+
 /* Threat Evaluation Terms */
 
 const int ThreatWeakPawn             = S( -37, -39);
@@ -750,6 +752,9 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
     uint64_t tempPawns = board->colours[US] & ei->passedPawns;
     uint64_t occupied  = board->colours[WHITE] | board->colours[BLACK];
 
+    uint64_t safe = ~ei->attacked[US]
+                  | (ei->attacked[US] & (ei->attackedBy2[THEM] | ei->attacked[THEM]));
+
     // Evaluate each passed pawn
     while (tempPawns){
 
@@ -779,6 +784,11 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
         flag = !(bitboard & ei->attacked[THEM]);
         eval += flag * PassedSafePromotionPath;
         if (TRACE) T.PassedSafePromotionPath[US] += flag;
+
+        // Apply a bonus/malus for passed blockers
+        if ((rank > 3) && onlyOne(bitboard & board->colours[THEM] & !board->pieces[QUEEN ]) && (sq & safe))
+            eval += PassedBlocker;
+        // if (TRACE) T.PassedBlockers[US] += flag;
     }
 
     return eval;
