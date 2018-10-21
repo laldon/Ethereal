@@ -778,7 +778,7 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
         bitboard = ranksAtOrAboveMasks(US, rankOf(sq)) & Files[fileOf(sq)];
         free = !(bitboard & board->colours[THEM]);
         flag = !(bitboard & ei->attacked[THEM]);
-        eval += flag * PassedSafePromotionPath[free]};
+        eval += flag * PassedSafePromotionPath[free];
         if (TRACE) T.PassedSafePromotionPath[free][US] += flag;
     }
 
