@@ -744,7 +744,7 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
 
     const int US = colour, THEM = !colour;
 
-    int sq, rank, dist, flag, canAdvance, safeAdvance, eval = 0;
+    int sq, rank, dist, free, flag, canAdvance, safeAdvance, eval = 0;
 
     uint64_t bitboard;
     uint64_t tempPawns = board->colours[US] & ei->passedPawns;
@@ -779,7 +779,7 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
         free = !(bitboard & board->colours[THEM]);
         flag = !(bitboard & ei->attacked[THEM]);
         eval += flag * PassedSafePromotionPath[free];
-        if (TRACE) T.PassedSafePromotionPath[free][US] += flag;
+        // if (TRACE) T.PassedSafePromotionPath[free][US] += flag;
     }
 
     return eval;
