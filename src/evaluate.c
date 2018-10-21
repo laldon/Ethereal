@@ -236,7 +236,7 @@ const int PassedEnemyDistance[RANK_NB] = {
     S(   1,  13), S(   0,  20), S(   0,  29), S(   0,   0),
 };
 
-const int PassedSafePromotionPath = S(   0,  29);
+const int PassedSafePromotionPath = S(   0,  30);
 
 /* Threat Evaluation Terms */
 
@@ -775,10 +775,12 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
         if (TRACE) T.PassedEnemyDistance[rank][US] += dist;
 
         // Apply a bonus when the path to promoting is uncontested
-        bitboard = (ranksAtOrAboveMasks(US, rankOf(sq)) & Files[fileOf(sq)] & ~board->colours[THEM]) ^ sq;
-        flag = !(bitboard & ei->attacked[THEM]);
-        eval += flag * PassedSafePromotionPath;
-        if (TRACE) T.PassedSafePromotionPath[US] += flag;
+		if (rank > 3) {
+            bitboard = (ranksAtOrAboveMasks(US, rankOf(sq)) & Files[fileOf(sq)] & ~board->colours[THEM]) ^ sq;
+            flag = !(bitboard & ei->attacked[THEM]);
+            eval += flag * PassedSafePromotionPath;
+            if (TRACE) T.PassedSafePromotionPath[US] += flag;
+        }
     }
 
     return eval;
