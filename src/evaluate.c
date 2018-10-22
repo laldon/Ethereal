@@ -236,7 +236,7 @@ const int PassedEnemyDistance[RANK_NB] = {
     S(   1,  13), S(   0,  20), S(   0,  29), S(   0,   0),
 };
 
-const int PassedSafePromotionPath[2] = { S(   0,  26), S(   4,  30) };
+const int PassedSafePromotionPath[2] = { S(   0,  26), S(   3,  29) };
 
 /* Threat Evaluation Terms */
 
@@ -776,9 +776,9 @@ int evaluatePassedPawns(EvalInfo* ei, Board* board, int colour){
 
         // Apply a bonus when the path to promoting is uncontested
         bitboard = ranksAtOrAboveMasks(US, rankOf(sq)) & Files[fileOf(sq)];
-        free = !(bitboard & board->colours[THEM]);
+        unocc = !(bitboard & (board->colours[WHITE] | board->colours[BLACK]))
         flag = !(bitboard & ei->attacked[THEM]);
-        eval += flag * PassedSafePromotionPath[free];
+        eval += flag * PassedSafePromotionPath[unocc];
         // if (TRACE) T.PassedSafePromotionPath[free][US] += flag;
     }
 
