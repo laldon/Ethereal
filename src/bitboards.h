@@ -42,6 +42,10 @@ enum {
     FILE_G = 0x4040404040404040ull,
     FILE_H = 0x8080808080808080ull,
 
+    CENTER_SQS = 0x0000001818000000,
+    // Extended center: center, plus c4, f4, c5, f5, and d6/d3, e6/e3
+    EXTENDED_CENTER_SQS = 0x0000183C3C180000,
+
     LEFT_WING = FILE_A | FILE_B | FILE_C,
     RIGHT_WING = FILE_F | FILE_G | FILE_H,
 

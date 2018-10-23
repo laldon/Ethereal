@@ -253,6 +253,8 @@ const int ThreatByPawnPush           = S(  20,  16);
 
 const int Tempo[COLOUR_NB] = { S(  25,  12), S( -25, -12) };
 
+const int CenterBonus = S(   3,   0);
+
 #undef S
 
 int evaluateBoard(Board* board, PawnKingTable* pktable){
@@ -405,7 +407,7 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, defended, count, eval = 0;
+    int sq, defended, count, center, eval = 0;
     uint64_t attacks;
 
     uint64_t myPawns     = board->pieces[PAWN  ] & board->colours[US  ];
@@ -444,8 +446,10 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the knight
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += KnightMobility[count];
+        eval += CenterBonus * center;
         if (TRACE) T.KnightMobility[count][US]++;
 
         // Update for King Safety calculation
@@ -464,7 +468,7 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, defended, count, eval = 0;
+    int sq, defended, count, center, eval = 0;
     uint64_t attacks;
 
     uint64_t myPawns     = board->pieces[PAWN  ] & board->colours[US  ];
@@ -515,8 +519,10 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the bishop
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += BishopMobility[count];
+        eval += CenterBonus * center;
         if (TRACE) T.BishopMobility[count][US]++;
 
         // Update for King Safety calculation
@@ -535,7 +541,7 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, open, count, eval = 0;
+    int sq, open, count, center, eval = 0;
     uint64_t attacks;
 
     uint64_t myPawns    = board->pieces[PAWN] & board->colours[  US];
@@ -575,8 +581,10 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the rook
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += RookMobility[count];
+        eval += CenterBonus * center;
         if (TRACE) T.RookMobility[count][US]++;
 
         // Update for King Safety calculation
@@ -595,7 +603,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, count, eval = 0;
+    int sq, count, center, eval = 0;
     uint64_t tempQueens, attacks;
 
     tempQueens = board->pieces[QUEEN] & board->colours[US];
@@ -618,8 +626,10 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
         ei->attackedBy[US][QUEEN] |= attacks;
 
         // Apply a bonus (or penalty) based on the mobility of the queen
-        count = popcount(ei->mobilityAreas[US] & attacks);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += QueenMobility[count];
+        eval += CenterBonus * center;
         if (TRACE) T.QueenMobility[count][US]++;
 
         // Update for King Safety calculation
