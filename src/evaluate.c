@@ -253,7 +253,7 @@ const int ThreatByPawnPush           = S(  20,  16);
 
 const int Tempo[COLOUR_NB] = { S(  25,  12), S( -25, -12) };
 
-const int CenterBonus = S(   3,   0);
+const int CenterBonus = S(   2,   0);
 
 #undef S
 
@@ -446,8 +446,8 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the knight
-        count  = popcount(ei->mobilityAreas[US] & attacks & ~CENTER_SQS);
-        center = popcount(ei->mobilityAreas[US] & attacks &  CENTER_SQS);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += KnightMobility[count];
         eval += CenterBonus * center;
         if (TRACE) T.KnightMobility[count][US]++;
@@ -519,8 +519,8 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the bishop
-        count  = popcount(ei->mobilityAreas[US] & attacks & ~CENTER_SQS);
-        center = popcount(ei->mobilityAreas[US] & attacks &  CENTER_SQS);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += BishopMobility[count];
         eval += CenterBonus * center;
         if (TRACE) T.BishopMobility[count][US]++;
@@ -581,8 +581,8 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
         }
 
         // Apply a bonus (or penalty) based on the mobility of the rook
-        count  = popcount(ei->mobilityAreas[US] & attacks & ~CENTER_SQS);
-        center = popcount(ei->mobilityAreas[US] & attacks &  CENTER_SQS);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += RookMobility[count];
         eval += CenterBonus * center;
         if (TRACE) T.RookMobility[count][US]++;
@@ -626,8 +626,8 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
         ei->attackedBy[US][QUEEN] |= attacks;
 
         // Apply a bonus (or penalty) based on the mobility of the queen
-        count  = popcount(ei->mobilityAreas[US] & attacks & ~CENTER_SQS);
-        center = popcount(ei->mobilityAreas[US] & attacks &  CENTER_SQS);
+        count  = popcount(ei->mobilityAreas[US] & attacks);
+        center = popcount(ei->mobilityAreas[US] & attacks & CENTER_SQS);
         eval += QueenMobility[count];
         eval += CenterBonus * center;
         if (TRACE) T.QueenMobility[count][US]++;
