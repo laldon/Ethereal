@@ -253,7 +253,7 @@ const int ThreatByPawnPush           = S(  20,  16);
 
 const int Tempo[COLOUR_NB] = { S(  25,  12), S( -25, -12) };
 
-const int CenterBonus = S(   2,   0);
+const int CenterBonus = S(   3,   1);
 
 #undef S
 
