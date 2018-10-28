@@ -22,6 +22,7 @@
     #include <sys/time.h>
 #endif
 
+#include <math.h>
 #include <stdlib.h>
 
 #include "search.h"
@@ -101,24 +102,7 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
         return;
 
     // Increase our time if the score suddenly dropped
-    if (lastValue > value + 10)
-        info->idealUsage *= 1.050;
-
-    // Increase our time if the score suddenly dropped
-    if (lastValue > value + 20)
-        info->idealUsage *= 1.050;
-
-    // Increase our time if the score suddenly dropped
-    if (lastValue > value + 40)
-        info->idealUsage *= 1.050;
-
-    // Increase our time if the score suddenly jumps
-    if (lastValue + 15 < value)
-        info->idealUsage *= 1.025;
-
-    // Increase our time if the score suddenly jumps
-    if (lastValue + 30 < value)
-        info->idealUsage *= 1.050;
+    info->idealUsage *= 1.25 - 0.25 / (1 + (abs(value - lastValue) / 64));
 
     // Always scale back the PV time factor
     info->pvFactor = MAX(0, info->pvFactor - 1);
