@@ -71,7 +71,7 @@ void initTimeManagment(SearchInfo* info, Limits* limits){
 
         // Playing using X + Y or X time controls
         else {
-            info->idealUsage =  0.52 * (limits->time + 23 * limits->inc) / 25;
+            info->idealUsage =  0.50 * (limits->time + 23 * limits->inc) / 25;
             info->maxAlloc   =  4.00 * (limits->time + 23 * limits->inc) / 25;
             info->maxUsage   = 10.00 * (limits->time + 23 * limits->inc) / 25;
         }
@@ -102,8 +102,8 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
         return;
 
     // Increase our time if the score drops/jumps
-    if (abs(value - lastValue) >= 10)
-        info->idealUsage *= MIN(1.25 - 0.25 / (1 + (abs(value - lastValue) / 25)), 1.15);
+    if (abs(value - lastValue) > 10)
+        info->idealUsage *= MIN(1.25 - 0.25 / (1 + (abs(value - lastValue) / 28)), 1.15);
 
     // Always scale back the PV time factor
     info->pvFactor = MAX(0, info->pvFactor - 1);
