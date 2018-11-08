@@ -70,9 +70,9 @@ void initTimeManagment(SearchInfo* info, Limits* limits){
 
         // Playing using X + Y or X time controls
         else {
-            info->idealUsage =  0.50 * (limits->time + 23 * limits->inc) / 25;
-            info->maxAlloc   =  3.95 * (limits->time + 23 * limits->inc) / 25;
-            info->maxUsage   =  9.95 * (limits->time + 23 * limits->inc) / 25;
+            info->idealUsage =  0.500 * (limits->time + 23 * limits->inc) / 25;
+            info->maxAlloc   =  3.975 * (limits->time + 23 * limits->inc) / 25;
+            info->maxUsage   =  9.975 * (limits->time + 23 * limits->inc) / 25;
         }
 
         // Cap all time allocations using the move time buffer
