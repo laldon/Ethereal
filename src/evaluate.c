@@ -60,18 +60,18 @@ const int PieceValues[8][PHASE_NB] = {
 
 /* Pawn Evaluation Terms */
 
-const int PawnCandidatePasser[2][RANK_NB] = {
-    {S(   0,   0), S(  -4,   0), S(  -9,   6), S( -10,  27),
-     S(   1,  44), S(  23,  17), S(   0,   0), S(   0,   0)},
-    {S(   0,   0), S(  -4,   6), S(  -5,  19), S(   9,  51),
-     S(  24,  65), S(  14,  10), S(   0,   0), S(   0,   0)},
+const int PawnCandidatePasser[2][8] = {
+   {S(   0,   0), S(  -2,   0), S( -10,   6), S( -12,  28),
+    S(   3,  44), S(  21,  16), S(   0,   0), S(   0,   0)},
+   {S(   0,   0), S(  -7,   5), S(  -6,  20), S(   7,  51),
+    S(  26,  67), S(  13,   9), S(   0,   0), S(   0,   0)},
 };
 
-const int PawnIsolated = S(  -4,  -6);
+const int PawnIsolated = S(  -3,  -6);
 
-const int PawnStacked = S(  -5, -28);
+const int PawnStacked = S(  -6, -25);
 
-const int PawnBackwards[2] = { S(   5,  -3), S(  -9, -16) };
+const int PawnBackwards[2] = { S(   5,  -2), S(  -9, -19) };
 
 const int PawnConnected32[32] = {
     S(   0,   0), S(   0,   0), S(   0,   0), S(   0,   0),
@@ -83,6 +83,8 @@ const int PawnConnected32[32] = {
     S( 104, -14), S( 197,  15), S( 227,  20), S( 249,  74),
     S(   0,   0), S(   0,   0), S(   0,   0), S(   0,   0),
 };
+
+const int PawnMobility = S(   0,   3);
 
 /* Knight Evaluation Terms */
 
@@ -141,8 +143,8 @@ const int QueenMobility[28] = {
 /* King Evaluation Terms */
 
 const int KingDefenders[12] = {
-    S( -32,  -3), S( -15,   7), S(   0,   1), S(   9,  -1),
-    S(  23,  -6), S(  34,   3), S(  32,  12), S(  24,   0),
+    S( -26,  -1), S( -12,   6), S(   0,   1), S(   7,   0),
+    S(  21,  -5), S(  32,   0), S(  30,  11), S(  23,   0),
     S(  12,   6), S(  12,   6), S(  12,   6), S(  12,   6),
 };
 
@@ -198,6 +200,12 @@ const int KingStorm[2][FILE_NB/2][RANK_NB] = {
     S(  -6,   5), S( -19,  -4), S(  -5,  -2), S(   0,   0)},
    {S(   0,   0), S(   0,   0), S(  -7, -19), S(  -3,  -3),
     S(  -9,  -5), S(   7, -10), S(  15,   1), S(   1,   1)}},
+};
+
+const int KingMobility[9] = {
+    S( -28,   0), S(   3,  -1), S(  14,   0), S(  11,   0),
+    S(  12,   0), S(  11,  -2), S(  14,   1), S(   0,   2),
+    S(  -6,   1),
 };
 
 /* King Safety Evaluation Terms */
@@ -660,6 +668,11 @@ int evaluateKings(EvalInfo *ei, Board *board, int colour) {
     eval += KingDefenders[count];
     if (TRACE) T.KingDefenders[count][US]++;
 
+    // Apply a bonus (or penalty) based on the mobility of the king
+    count = popcount(kingAttacks(kingSq) & ~ei->attacked[THEM]);
+    eval += KingMobility[count];
+    if (TRACE) T.KingMobility[count][US]++;
+
     // Perform King Safety when we have two attackers, or
     // one attacker with a potential for a Queen attacker
     if (ei->kingAttackersCount[THEM] > 1 - popcount(enemyQueens)) {
@@ -817,10 +830,16 @@ int evaluateThreats(EvalInfo *ei, Board *board, int colour) {
     // Look for enemy non-pawn pieces which we may threaten with a pawn advance.
     // Don't consider pieces we already threaten, pawn moves which would be countered
     // by a pawn capture, and squares which are completely unprotected by our pieces.
-    uint64_t pushThreat  = pawnAdvance(pawns, occupied, US);
+    uint64_t pushThreat = pawnAdvance(pawns, occupied, US);
     pushThreat |= pawnAdvance(pushThreat & ~attacksByPawns & Rank3Rel, occupied, US);
     pushThreat &= ~attacksByPawns & (ei->attacked[US] | ~ei->attacked[THEM]);
     pushThreat  = pawnAttackSpan(pushThreat, enemy & ~ei->attackedBy[US][PAWN], US);
+
+    uint64_t pawnAdvanceSpan = pawnAdvance(pawns, occupied, US);
+    pawnAdvanceSpan |= pawnAdvance(pawnAdvanceSpan & Rank3Rel, occupied, US);
+    count = popcount(pawnAdvanceSpan | pawnAttackSpan(pawns, enemy, US));
+    eval += count * PawnMobility;
+    if (TRACE) T.PawnMobility[US] += count;
 
     // Penalty for each of our poorly supported pawns
     count = popcount(pawns & ~attacksByPawns & poorlyDefended);
