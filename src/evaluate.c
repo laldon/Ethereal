@@ -61,17 +61,17 @@ const int PieceValues[8][PHASE_NB] = {
 /* Pawn Evaluation Terms */
 
 const int PawnCandidatePasser[2][RANK_NB] = {
-   {S(   0,   0), S(  -3,   0), S(  -9,   6), S( -10,  27),
-    S(   1,  44), S(  22,  16), S(   0,   0), S(   0,   0)},
-   {S(   0,   0), S(  -4,   5), S(  -5,  19), S(   8,  51),
-    S(  24,  65), S(  13,   9), S(   0,   0), S(   0,   0)},
+   {S(   0,   0), S(   0,  -1), S( -11,   8), S( -13,  30),
+    S(   3,  45), S(  20,  16), S(   0,   0), S(   0,   0)},
+   {S(   0,   0), S(  -8,   5), S(  -7,  21), S(   7,  52),
+    S(  26,  70), S(  13,   9), S(   0,   0), S(   0,   0)},
 };
 
 const int PawnIsolated = S(  -3,  -6);
 
-const int PawnStacked = S(  -5, -26);
+const int PawnStacked = S(  -7, -25);
 
-const int PawnBackwards[2] = { S(   5,  -2), S(  -9, -18) };
+const int PawnBackwards[2] = { S(   5,  -3), S(  -9, -19) };
 
 const int PawnConnected32[32] = {
     S(   0,   0), S(   0,   0), S(   0,   0), S(   0,   0),
@@ -84,7 +84,7 @@ const int PawnConnected32[32] = {
     S(   0,   0), S(   0,   0), S(   0,   0), S(   0,   0),
 };
 
-const int PawnMobility = S(   0,   2);
+const int PawnMobility = S(   0,   3);
 
 /* Knight Evaluation Terms */
 
@@ -143,8 +143,8 @@ const int QueenMobility[28] = {
 /* King Evaluation Terms */
 
 const int KingDefenders[12] = {
-    S( -30,  -1), S( -13,   6), S(   0,   1), S(   7,  -1),
-    S(  22,  -5), S(  33,   2), S(  31,  11), S(  23,   0),
+    S( -25,  -1), S( -12,   7), S(   0,   2), S(   7,   0),
+    S(  21,  -4), S(  32,   0), S(  29,  10), S(  22,   0),
     S(  12,   6), S(  12,   6), S(  12,   6), S(  12,   6),
 };
 
@@ -203,9 +203,9 @@ const int KingStorm[2][FILE_NB/2][RANK_NB] = {
 };
 
 const int KingMobility[9] = {
-    S( -28,   0), S(   1,   0), S(  14,   0), S(  10,  -1),
-    S(  12,   0), S(  10,  -2), S(  14,   2), S(   1,   1),
-    S(  -3,   0),
+    S( -27,  -1), S(   5,  -2), S(  15,   0), S(  11,   0),
+    S(  13,   0), S(  11,  -2), S(  13,   2), S(  -1,   3),
+    S(  -8,   2),
 };
 
 /* King Safety Evaluation Terms */
