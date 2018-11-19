@@ -111,8 +111,8 @@ void initMasks() {
     OutpostRanks[WHITE] = RANK_4 | RANK_5 | RANK_6;
     OutpostRanks[BLACK] = RANK_3 | RANK_4 | RANK_5;
 
-    ExtCenter[WHITE] = 0x000000183C3C1800ull;
-    ExtCenter[BLACK] = 0x00183C3C18000000ull;
+    ExtCenter[WHITE] = 0x000000183C7E1800ull;
+    ExtCenter[BLACK] = 0x00187E3C18000000ull;
 	
     // Initalize pawn connected masks
     for (int s = 8 ; s < 56; s++) {

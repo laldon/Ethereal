@@ -603,7 +603,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, count, xxxxx, eval = 0;
+    int sq, count, eval = 0;
     uint64_t tempQueens, attacks;
 
     tempQueens = board->pieces[QUEEN] & board->colours[US];
@@ -627,8 +627,6 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
         // Apply a bonus (or penalty) based on the mobility of the queen
         count = popcount(ei->mobilityAreas[US] & attacks);
-        xxxxx = popcount(ei->mobilityAreas[US] & attacks & extCenter(US));
-        eval += xxxxx * ExtendedMobility;
         eval += QueenMobility[count];
         if (TRACE) T.QueenMobility[count][US]++;
 
