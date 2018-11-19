@@ -36,6 +36,7 @@ uint64_t PassedPawnMasks[COLOUR_NB][SQUARE_NB];
 uint64_t PawnConnectedMasks[COLOUR_NB][SQUARE_NB];
 uint64_t OutpostSquareMasks[COLOUR_NB][SQUARE_NB];
 uint64_t OutpostRanks[COLOUR_NB];
+uint64_t ExtCenter[COLOUR_NB];
 
 void initMasks() {
 
@@ -110,6 +111,9 @@ void initMasks() {
     OutpostRanks[WHITE] = RANK_4 | RANK_5 | RANK_6;
     OutpostRanks[BLACK] = RANK_3 | RANK_4 | RANK_5;
 
+    ExtCenter[WHITE] = 0x000000183C3C1800ull;
+    ExtCenter[BLACK] = 0x00183C3C18000000ull;
+	
     // Initalize pawn connected masks
     for (int s = 8 ; s < 56; s++) {
         PawnConnectedMasks[WHITE][s] = pawnAttacks(BLACK, s) | pawnAttacks(BLACK, s + 8);
@@ -167,4 +171,9 @@ uint64_t outpostSquareMasks(int c, int s) {
 uint64_t outpostRanks(int c) {
     assert(0 <= c && c < COLOUR_NB);
     return OutpostRanks[c];
+}
+
+uint64_t extCenter(int c) {
+    assert(0 <= c && c < COLOUR_NB);
+    return ExtCenter[c];
 }

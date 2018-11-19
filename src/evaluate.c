@@ -238,6 +238,8 @@ const int PassedEnemyDistance[RANK_NB] = {
 
 const int PassedSafePromotionPath = S(   0,  26);
 
+const int ExtendedMobility = S(   1,   0);
+
 /* Threat Evaluation Terms */
 
 const int ThreatWeakPawn             = S( -37, -39);
@@ -405,7 +407,7 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, defended, count, eval = 0;
+    int sq, defended, count, xxxxx, eval = 0;
     uint64_t attacks;
 
     uint64_t myPawns     = board->pieces[PAWN  ] & board->colours[US  ];
@@ -445,6 +447,8 @@ int evaluateKnights(EvalInfo *ei, Board *board, int colour) {
 
         // Apply a bonus (or penalty) based on the mobility of the knight
         count = popcount(ei->mobilityAreas[US] & attacks);
+        xxxxx = popcount(ei->mobilityAreas[US] & attacks & extCenter(US));
+        eval += xxxxx * ExtendedMobility;
         eval += KnightMobility[count];
         if (TRACE) T.KnightMobility[count][US]++;
 
@@ -464,7 +468,7 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, defended, count, eval = 0;
+    int sq, defended, count, xxxxx, eval = 0;
     uint64_t attacks;
 
     uint64_t myPawns     = board->pieces[PAWN  ] & board->colours[US  ];
@@ -516,6 +520,8 @@ int evaluateBishops(EvalInfo *ei, Board *board, int colour) {
 
         // Apply a bonus (or penalty) based on the mobility of the bishop
         count = popcount(ei->mobilityAreas[US] & attacks);
+        xxxxx = popcount(ei->mobilityAreas[US] & attacks & extCenter(US));
+        eval += xxxxx * ExtendedMobility;
         eval += BishopMobility[count];
         if (TRACE) T.BishopMobility[count][US]++;
 
@@ -535,7 +541,7 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, open, count, eval = 0;
+    int sq, open, count, xxxxx, eval = 0;
     uint64_t attacks;
 
     uint64_t myPawns    = board->pieces[PAWN] & board->colours[  US];
@@ -576,6 +582,8 @@ int evaluateRooks(EvalInfo *ei, Board *board, int colour) {
 
         // Apply a bonus (or penalty) based on the mobility of the rook
         count = popcount(ei->mobilityAreas[US] & attacks);
+        xxxxx = popcount(ei->mobilityAreas[US] & attacks & extCenter(US));
+        eval += xxxxx * ExtendedMobility;
         eval += RookMobility[count];
         if (TRACE) T.RookMobility[count][US]++;
 
@@ -595,7 +603,7 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
     const int US = colour, THEM = !colour;
 
-    int sq, count, eval = 0;
+    int sq, count, xxxxx, eval = 0;
     uint64_t tempQueens, attacks;
 
     tempQueens = board->pieces[QUEEN] & board->colours[US];
@@ -619,6 +627,8 @@ int evaluateQueens(EvalInfo *ei, Board *board, int colour) {
 
         // Apply a bonus (or penalty) based on the mobility of the queen
         count = popcount(ei->mobilityAreas[US] & attacks);
+        xxxxx = popcount(ei->mobilityAreas[US] & attacks & extCenter(US));
+        eval += xxxxx * ExtendedMobility;
         eval += QueenMobility[count];
         if (TRACE) T.QueenMobility[count][US]++;
 
