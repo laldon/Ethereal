@@ -76,6 +76,7 @@
 #define TuneThreatQueenAttackedByOne    (0)
 #define TuneThreatOverloadedPieces      (0)
 #define TuneThreatByPawnPush            (0)
+#define TuneMaterialImbalance           (1)
 
 // Size of each allocated chunk
 #define STACKSIZE ((int)((double) NPOSITIONS * NTERMS / 16))

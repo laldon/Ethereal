@@ -249,6 +249,14 @@ const int ThreatQueenAttackedByOne   = S( -97,   1);
 const int ThreatOverloadedPieces     = S( -10, -26);
 const int ThreatByPawnPush           = S(  20,  16);
 
+const int MaterialImbalance[5][5] = {
+   {S(   0,   0)},
+   {S(   3,   5), S(   0,   0)},
+   {S(   2,   2), S(  -6,  -2), S(   0,   0)},
+   {S(   0,   4), S(  -8, -10), S( -14, -14), S(   0,   0)},
+   {S(  -2,  24), S( -10,  -3), S(  -5,   3), S( -18,  20), S(   0,   0)},
+};
+
 /* General Evaluation Terms */
 
 const int Tempo[COLOUR_NB] = { S(  25,  12), S( -25, -12) };
@@ -263,6 +271,7 @@ int evaluateBoard(Board* board, PawnKingTable* pktable){
     // Setup and perform all evaluations
     initializeEvalInfo(&ei, board, pktable);
     eval   = evaluatePieces(&ei, board);
+    eval  += evaluateMaterialImbalance(&ei, board);
     pkeval = ei.pkeval[WHITE] - ei.pkeval[BLACK];
     eval  += pkeval + board->psqtmat + Tempo[board->turn];
 
@@ -892,6 +901,30 @@ int evaluateScaleFactor(Board *board) {
     }
 
     return SCALE_NORMAL;
+}
+
+int evaluateMaterialImbalance(EvalInfo *ei, Board *board){
+
+    (void)ei;
+
+    int wcount, bcount, eval = 0;
+
+    for (int p1 = KNIGHT; p1 <= QUEEN; p1++) {
+        for (int p2 = PAWN; p2 < p1; p2++) {
+
+            wcount = popcount(board->colours[WHITE] & board->pieces[p1])
+                   * popcount(board->colours[BLACK] & board->pieces[p2]);
+
+            bcount = popcount(board->colours[WHITE] & board->pieces[p2])
+                   * popcount(board->colours[BLACK] & board->pieces[p1]);
+
+            eval += (wcount - bcount) * MaterialImbalance[p1][p2];
+            if (TRACE) T.MaterialImbalance[p1][p2][WHITE] = wcount;
+            if (TRACE) T.MaterialImbalance[p1][p2][BLACK] = bcount;
+        }
+    }
+
+    return eval;
 }
 
 void initializeEvalInfo(EvalInfo* ei, Board* board, PawnKingTable* pktable){
