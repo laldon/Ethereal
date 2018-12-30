@@ -903,7 +903,7 @@ int evaluateScaleFactor(Board *board) {
     return SCALE_NORMAL;
 }
 
-int evaluateMaterialImbalance(EvalInfo *ei, Board *board){
+int evaluateMaterialImbalance(EvalInfo *ei, Board *board, int colour){
 
     (void)ei;
     const int US = colour, THEM = !colour;
