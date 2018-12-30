@@ -903,15 +903,14 @@ int evaluateScaleFactor(Board *board) {
     return SCALE_NORMAL;
 }
 
-int evaluateMaterialImbalance(EvalInfo *ei, Board *board, int colour){
+int evaluateMaterialImbalance(EvalInfo *ei, Board *board){
 
     (void)ei;
-    const int US = colour, THEM = !colour;
     int count, eval = 0;
 
     for (int p1 = KNIGHT; p1 <= QUEEN; p1++) {
-        count = popcount(board->colours[US  ] & board->pieces[p1])
-              * popcount(board->colours[THEM] & board->pieces[p1]);
+        count = popcount(board->colours[WHITE] & board->pieces[p1])
+              * popcount(board->colours[BLACK] & board->pieces[p1]);
 
         eval += count * MaterialImbalance[p1][p1];
     }
