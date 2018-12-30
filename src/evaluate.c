@@ -251,10 +251,10 @@ const int ThreatByPawnPush           = S(  20,  16);
 
 const int MaterialImbalance[5][5] = {
    {S(   0,   0)},
-   {S(   3,   5), S(   0,   0)},
-   {S(   2,   3), S(  -6,  -3), S(   0,   0)},
-   {S(   0,   3), S(  -5, -11), S( -16, -14), S(   0,   0)},
-   {S(  -3,  24), S( -20,   0), S( -12,   8), S( -26,  27), S(   0,   0)},
+   {S(   3,   5), S(   1,   1)},
+   {S(   2,   3), S(  -6,  -3), S(   1,   1)},
+   {S(   0,   3), S(  -5, -11), S( -16, -14), S(   1,   1)},
+   {S(  -3,  24), S( -20,   0), S( -12,   8), S( -26,  27), S(   1,   1)},
 };
 
 /* General Evaluation Terms */
@@ -906,22 +906,14 @@ int evaluateScaleFactor(Board *board) {
 int evaluateMaterialImbalance(EvalInfo *ei, Board *board){
 
     (void)ei;
-
-    int wcount, bcount, eval = 0;
+    const int US = colour, THEM = !colour;
+    int count, eval = 0;
 
     for (int p1 = KNIGHT; p1 <= QUEEN; p1++) {
-        for (int p2 = PAWN; p2 < p1; p2++) {
+        count = popcount(board->colours[US  ] & board->pieces[p1])
+              * popcount(board->colours[THEM] & board->pieces[p1]);
 
-            wcount = popcount(board->colours[WHITE] & board->pieces[p1])
-                   * popcount(board->colours[BLACK] & board->pieces[p2]);
-
-            bcount = popcount(board->colours[WHITE] & board->pieces[p2])
-                   * popcount(board->colours[BLACK] & board->pieces[p1]);
-
-            eval += (wcount - bcount) * MaterialImbalance[p1][p2];
-            if (TRACE) T.MaterialImbalance[p1][p2][WHITE] = wcount;
-            if (TRACE) T.MaterialImbalance[p1][p2][BLACK] = bcount;
-        }
+        eval += count * MaterialImbalance[p1][p1];
     }
 
     return eval;
