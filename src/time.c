@@ -70,7 +70,7 @@ void initTimeManagment(SearchInfo* info, Limits* limits){
 
         // Playing using X + Y or X time controls
         else {
-            info->idealUsage =  1.00 * (limits->time + 16 * limits->inc) / 32;
+            info->idealUsage =  0.66 * (limits->time + 16 * limits->inc) / 32;
             info->maxAlloc   =  5.00 * (limits->time + 16 * limits->inc) / 32;
             info->maxUsage   = 12.00 * (limits->time + 16 * limits->inc) / 32;
         }
@@ -102,11 +102,11 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
 
     // Increase our time if the score suddenly dropped
     if (lastValue > value + 10)
-        info->idealUsage *= 1.045;
+        info->idealUsage *= 1.050;
 
     // Increase our time if the score suddenly dropped
     if (lastValue > value + 20)
-        info->idealUsage *= 1.0475;
+        info->idealUsage *= 1.050;
 
     // Increase our time if the score suddenly dropped
     if (lastValue > value + 40)
