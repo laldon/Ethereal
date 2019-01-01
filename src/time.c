@@ -70,9 +70,9 @@ void initTimeManagment(SearchInfo* info, Limits* limits){
 
         // Playing using X + Y or X time controls
         else {
-            info->idealUsage =  0.52 * (limits->time + 23 * limits->inc) / 25;
-            info->maxAlloc   =  4.00 * (limits->time + 23 * limits->inc) / 25;
-            info->maxUsage   = 10.00 * (limits->time + 23 * limits->inc) / 25;
+            info->idealUsage =  1.00 * (limits->time + 16 * limits->inc) / 32;
+            info->maxAlloc   =  5.00 * (limits->time + 16 * limits->inc) / 32;
+            info->maxUsage   = 12.00 * (limits->time + 16 * limits->inc) / 32;
         }
 
         // Cap all time allocations using the move time buffer
@@ -102,11 +102,11 @@ void updateTimeManagment(SearchInfo* info, Limits* limits, int depth, int value)
 
     // Increase our time if the score suddenly dropped
     if (lastValue > value + 10)
-        info->idealUsage *= 1.050;
+        info->idealUsage *= 1.045;
 
     // Increase our time if the score suddenly dropped
     if (lastValue > value + 20)
-        info->idealUsage *= 1.050;
+        info->idealUsage *= 1.0475;
 
     // Increase our time if the score suddenly dropped
     if (lastValue > value + 40)
