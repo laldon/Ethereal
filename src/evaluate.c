@@ -69,7 +69,7 @@ const int PawnCandidatePasser[2][RANK_NB] = {
 
 const int PawnIsolated = S(  -4,  -6);
 
-const int PawnStacked = S(  -5, -28);
+const int PawnStacked = S(  -6, -29);
 
 const int PawnBackwards[2] = { S(   5,  -3), S(  -9, -16) };
 
@@ -100,7 +100,7 @@ const int KnightMobility[9] = {
 
 const int BishopPair = S(  32,  70);
 
-const int BishopRammedPawns = S( -11, -12);
+const int BishopRammedPawns = S( -11, -13);
 
 const int BishopOutpost[2] = { S(  24,   1), S(  40,   0) };
 
